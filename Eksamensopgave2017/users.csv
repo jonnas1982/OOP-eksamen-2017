@@ -1,6 +1,6 @@
 id;firstname;lastname;username;email;balance
 1;"Filippa";"Mikkelsen";"fmikkelsen";"fmikkelsen@stregsystemet.dk";624 
-2;"Børge";"Smith";"bsmith";"bsmith@stregsystemet.dk";2887 
+2;"Børge";"Smith";"bsmith";"bsmith@stregsystemet.dk";5691 
 3;"Benjamin";"Frederiksen";"bfrederiksen";"bfrederiksen@stregsystemet.dk";6955 
 4;"Bjarne";"Johansen";"bjohansen";"bjohansen@stregsystemet.dk";8845 
 5;"Dorthea";"Sørensen";"cr1t";"cr1t@stregsystemet.dk";715 
@@ -16,7 +16,7 @@ id;firstname;lastname;username;email;balance
 15;"Gitte";"Degn";"gdegn";"gdegn@stregsystemet.dk";905 
 16;"Thyge";"Skou";"tskou";"tskou@stregsystemet.dk";825 
 17;"Magnus";"Berg";"mberg";"mberg@stregsystemet.dk";730 
-18;"Ivan";"Nielsen";"inielsen";"inielsen@stregsystemet.dk";2883 
+18;"Ivan";"Nielsen";"inielsen";"inielsen@stregsystemet.dk";5687 
 19;"Mogens";"Kjær Olsen";"mko";"mko@stregsystemet.dk";752 
 20;"Sine";"Korsgaard";"skorsgaard";"skorsgaard@stregsystemet.dk";1000 
 21;"Aske";"Kjærsgaard";"akke";"akke@stregsystemet.dk";156 
