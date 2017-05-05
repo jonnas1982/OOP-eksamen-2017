@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using static Eksamensopgave2017.User;
-using static Eksamensopgave2017.Product;
-using static Eksamensopgave2017.Transaction;
 
 namespace Eksamensopgave2017
 {

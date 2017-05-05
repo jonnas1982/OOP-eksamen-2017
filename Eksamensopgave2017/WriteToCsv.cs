@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Eksamensopgave2017 // https://www.codeproject.com/Articles/415732/Reading-and-Writing-CSV-Files-in-Csharp
 {

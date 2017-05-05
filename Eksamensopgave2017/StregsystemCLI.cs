@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Eksamensopgave2017
 {
@@ -68,29 +66,34 @@ namespace Eksamensopgave2017
         {
             Console.WriteLine($"User {username} does not exist");
         }
-        private bool _running;
-        public void Start()
+
+        public void DisplayAktiveProducts()
         {
+            Console.Clear();
             Stregsystem ssystem = new Stregsystem();
-            StregsystemController ssc = new StregsystemController();
-            _running = true;
             foreach (var Item in ssystem.ActiveProducts)
             {
                 Console.Write(Item.ToString());
             }
-            Console.Write("\n\nQuickbuy: ");
+            Console.WriteLine();
+        }
+        private bool _running;
+        public void Start()
+        {
+
+            StregsystemController ssc = new StregsystemController();
+            _running = true;
+            DisplayAktiveProducts();
+            Console.Write("\nQuickbuy: ");
             do
             {
                 string command = Console.ReadLine();
-                if (command == ":q" || command == ":quit") Close();
-                Console.Clear();
-                foreach (var Item in ssystem.ActiveProducts)
-                {
-                    Console.Write(Item.ToString());
-                }
-                Console.WriteLine("");
+                DisplayAktiveProducts();
+                if (command == ":q" || command == ":quit")
+                    Close();
                 ssc.RunCommand(command);
                 Console.Write("\n\nQuickbuy: ");
+
             } while (_running);
         }
 

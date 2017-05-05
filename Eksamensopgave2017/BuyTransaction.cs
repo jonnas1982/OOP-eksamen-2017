@@ -41,7 +41,7 @@ namespace Eksamensopgave2017
                     }
                     FileWriters writer = new FileWriters();
                 //The new information which have been written to the list will over write the old file
-                    writer.WriteToUserCsv("../../user.csv", UserList);
+                    writer.WriteToUserCsv("../../users.csv", UserList);
                 //The transaction is written to the transaction file
                     writer.WriteToTransactionCsv("../../transactions.csv", this.ToString());
             }

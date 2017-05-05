@@ -14,36 +14,49 @@ namespace Eksamensopgave2017
         //http://stackoverflow.com/questions/2896715/dictionary-with-delegate-or-switch
         //http://stackoverflow.com/a/21099511
 
-        delegate List<Product> StatusCommands(List<Product> ProductList, int productId);
+        delegate List<Product> StatusCommands(int productId);
         delegate void QuitCommand();
-        delegate List<Product> CreditCommands(List<Product> ProductList, int productId);
+        delegate List<Product> CreditCommands(int productId);
         delegate InsertCashTransaction AddCreditsCommands(User user, decimal amount, List<User> UserList);
 
         StregsystemCLI CLI = new StregsystemCLI();
         Stregsystem sSystem = new Stregsystem();
+        
         public Dictionary<string, Delegate> _adminCommands = new Dictionary<string, Delegate>();
 
-        public static List<Product> Aktivate(List<Product> ProductList, int productId)
+        public static List<Product> Aktivate(int productId)
         {
-            ProductList.Where(x => x.Id == productId).ToList().ForEach(x => x.Active = true);
+            StregsystemCLI CLI = new StregsystemCLI();
+            FileWriters writer = new FileWriters();
+            ReadFromCsv.ProductList.Where(x => x.Id == productId).ToList().ForEach(x => x.Active = true);
+            writer.WriteToProductCsv("../../products.csv", ReadFromCsv.ProductList);
+            CLI.DisplayAktiveProducts();
             return null;
         }
 
-        public static List<Product> Deactivate(List<Product> ProductList, int productId)
+        public static List<Product> Deactivate(int productId)
         {
-            ProductList.Where(x => x.Id == productId).ToList().ForEach(x => x.Active = false);
+            StregsystemCLI CLI = new StregsystemCLI();
+            FileWriters writer = new FileWriters();
+            ReadFromCsv.ProductList.Where(x => x.Id == productId).ToList().ForEach(x => x.Active = false);
+            writer.WriteToProductCsv("../../products.csv", ReadFromCsv.ProductList);
+            CLI.DisplayAktiveProducts();
             return null;
         }
 
-        public static List<Product> CreaditOn(List<Product> ProductList, int productId)
+        public static List<Product> CreaditOn(int productId)
         {
-            ProductList.Where(x => x.Id == productId).ToList().ForEach(x => x.CanBeBoughtOnCredit = true);
+            FileWriters writer = new FileWriters();
+            ReadFromCsv.ProductList.Where(x => x.Id == productId).ToList().ForEach(x => x.CanBeBoughtOnCredit = true);
+            writer.WriteToProductCsv("../../products.csv", ReadFromCsv.ProductList);
             return null;
         }
 
-        public static List<Product> CreditOff(List<Product> ProductList, int productId)
+        public static List<Product> CreditOff(int productId)
         {
-            ProductList.Where(x => x.Id == productId).ToList().ForEach(x => x.CanBeBoughtOnCredit = false);
+            FileWriters writer = new FileWriters();
+            ReadFromCsv.ProductList.Where(x => x.Id == productId).ToList().ForEach(x => x.CanBeBoughtOnCredit = false);
+            writer.WriteToProductCsv("../../products.csv", ReadFromCsv.ProductList);
             return null;
         }
 
@@ -79,32 +92,17 @@ namespace Eksamensopgave2017
                     {
                         _adminCommands[":q"].DynamicInvoke();
                     }
-                    else if (AdminCommand == ":activate")
+                    else if (AdminCommand == ":activate" || AdminCommand == ":deactivate" || AdminCommand == ":crediton" || AdminCommand == ":creditoff")
                     {
                         int productId = Convert.ToInt32(SplittedString[1]);
-                        _adminCommands[":activate"].DynamicInvoke(ReadFromCsv.ProductList, productId);
-                    }
-                    else if (AdminCommand == ":deactivate")
-                    {
-                        int productId = Convert.ToInt32(SplittedString[1]);
-                        _adminCommands[":deactivate"].DynamicInvoke(ReadFromCsv.ProductList, productId);
-                    }
-                    else if (AdminCommand == ":crediton")
-                    {
-                        int productId = Convert.ToInt32(SplittedString[1]);
-                        _adminCommands[":crediton"].DynamicInvoke(ReadFromCsv.ProductList, productId);
-                    }
-                    else if (AdminCommand == ":creditoff")
-                    {
-                        int productId = Convert.ToInt32(SplittedString[1]);
-                        _adminCommands[":creditoff"].DynamicInvoke(ReadFromCsv.ProductList, productId);
+                        _adminCommands[AdminCommand].DynamicInvoke(productId);
                     }
                     else if (AdminCommand == ":addcredits")
                     {
                         string username = Convert.ToString(SplittedString[1]);
                         User user = sSystem.GetUserByUsername(username, ReadFromCsv.UserList);
                         decimal amount = Convert.ToDecimal(SplittedString[2]);
-                        sSystem.AddCreditsToAccount(user, amount, ReadFromCsv.UserList);
+                        sSystem.AddCreditsToAccount(user, amount, ReadFromCsv.UserList).Execute();
                     }
                     else
                     {

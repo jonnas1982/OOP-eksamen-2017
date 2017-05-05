@@ -9,7 +9,7 @@ id;name;price;active
 8;"½L Skummetmælk (2x¼)";375;0
 9;"1L Letmælk";600;0
 10;"½L Kærnemælk (2x¼)";525;0
-11;"½L vand & kildevand excl. pant";2;1
+11;"½L vand & kildevand excl. pant";1200;1
 12;"¼L Sodavand";500;0
 13;"Øl(f.eks. Thy, Guld, 47, T-FF)";1000;1
 14;Øl(Tuborg/Classic/Carlsberg/Rød);650;1
@@ -88,7 +88,7 @@ id;name;price;active
 1785;"Bingo Plader";1000;0
 1786;"3x Bingo Plader";2500;0
 1787;"Burn Shot";1400;0
-1789;Fames;1000;0
+1789;Fames;1000;0;
 1790;"<b>Red Bull</b>";1500;0
 1791;"Cult Cola / Cult";1200;0
 1792;"<h2>F-sportsdag + gris</h2>";5500;0
