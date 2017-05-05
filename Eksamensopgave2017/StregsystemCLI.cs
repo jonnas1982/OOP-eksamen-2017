@@ -1,17 +1,107 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Eksamensopgave2017
 {
-    class StregsystemCLI : IStregsystemUI
+
+    public class StregsystemCLI : IStregsystemUI
     {
-        public StregsystemCLI(IStregsystem stregsystem)
+        public void Close()
+        {
+            _running = false;
+        }
+
+        public void DisplayAdminCommandNotFoundMessage(string adminCommand)
+        {
+            Console.WriteLine($"The admin command '{adminCommand}' could not be found");
+        }
+
+        public void DisplayGeneralError(string errorString)
         {
             throw new NotImplementedException();
         }
 
+        public void DisplayInactiveProduct(Product product)
+        {
+            Console.WriteLine($"'{product.Name}' is inactive (ID: {product.Id})");
+        }
+
+        public void DisplayInsufficientCash(User user, Product product)
+        {
+            Console.WriteLine($"{user.Firstname} {user.Lastname} does not have sufficient cash to buy {product.Name} \n{user.Firstname} have a balance of {user.Balance}");
+        }
+
+        public void DisplayProductNotFound(string product)
+        {
+            Console.WriteLine($"Product not found");
+        }
+
+        public void DisplayTooManyArgumentsError(string command)
+        {
+            Console.WriteLine($"The following command contans to many arguments: {command}");
+        }
+
+        public void DisplayTooFewArgumentsError()
+        {
+            Console.WriteLine($"To few arguments");
+        }
+
+        public void DisplayUserBuysProduct(BuyTransaction transaction)
+        {
+            Console.WriteLine($"{transaction.user.Firstname} bought a product\nUser balance: {transaction.user.Balance}");
+        }
+
+        public void DisplayUserInfo(User user)
+        {
+            Stregsystem sSystem = new Stregsystem();
+            //http://stackoverflow.com/a/5344836
+            //http://stackoverflow.com/a/10883477
+            Console.WriteLine($"{user.Username}, {user.Firstname} {user.Firstname}, balance: {user.Balance}");
+            foreach (var element in sSystem.GetTransactions(user, 10))
+            {
+                Console.WriteLine(element);
+            }
+        }
+
+        public void DisplayUserNotFound(string username)
+        {
+            Console.WriteLine($"User {username} does not exist");
+        }
+        private bool _running;
         public void Start()
         {
-            throw new NotImplementedException();
+            Stregsystem ssystem = new Stregsystem();
+            StregsystemController ssc = new StregsystemController();
+            _running = true;
+            foreach (var Item in ssystem.ActiveProducts)
+            {
+                Console.Write(Item.ToString());
+            }
+            Console.Write("\n\nQuickbuy: ");
+            do
+            {
+                string command = Console.ReadLine();
+                if (command == ":q" || command == ":quit") Close();
+                Console.Clear();
+                foreach (var Item in ssystem.ActiveProducts)
+                {
+                    Console.Write(Item.ToString());
+                }
+                Console.WriteLine("");
+                ssc.RunCommand(command);
+                Console.Write("\n\nQuickbuy: ");
+            } while (_running);
+        }
+
+        public void DisplayUserBuysProduct(int count, BuyTransaction transaction)
+        {
+            Console.WriteLine($"{transaction.user.Firstname} bought {count} products \nUser balance: {transaction.user.Balance}");
+        }
+
+        public void LowBalanceWarning(User user, decimal amount)
+        {
+            if (user.Balance < amount) Console.WriteLine("!!---> YOUR BALANCE IS UNDER 50 <---!!");
         }
     }
 }

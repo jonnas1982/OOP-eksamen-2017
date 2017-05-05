@@ -1,0 +1,4 @@
+id;name;active;canbeboughtoncredit;price;startYear;startMonth;startDay;endYear;endMonth;endDay
+1837;"Coffe (Black/Latte)";1;0;23;2016;01;01;2017;09;01
+1838;"Wine (Red/White)";0;0;331;2016;01;01;2017;09;01
+1839"Awsome product";1;1;23;2014;01;01;2016;09;01

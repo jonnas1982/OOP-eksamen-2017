@@ -1,30 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Eksamensopgave2017
 {
-    class User : IComparable<User>
+    public class User : IComparable<User>
     {
-        Regex UsernameValidator = new Regex(@"^[A-Za-z\d_-]+$"); //https://msdn.microsoft.com/en-us/library/twcw2f1c(v=vs.110).aspx
-        public User(string firstname, string lastname, string username, string email, double balance)
+        //https://msdn.microsoft.com/en-us/library/twcw2f1c(v=vs.110).aspx
+        Regex UsernameValidator = new Regex(@"^[a-z\d_-]+$"); 
+        Regex EmailLocalValidator = new Regex(@"^[a-zA-Z\d_\-.]+$");
+        Regex EmailDomainValidator = new Regex(@"^[a-zA-Z\d\-.]+$");
+        public User(string firstname, string lastname, string username, string email, decimal balance)
         {
-            Match mUsername = UsernameValidator.Match(username);
-            if (mUsername.Success) this.Username = username;
-            else throw new InvalidUsernameException("Invalid username");
+            string ConvertedUsername = username.Replace("\"", ""); //http://stackoverflow.com/a/1177897
+            Match mUsername = UsernameValidator.Match(ConvertedUsername);
+            if (mUsername.Success)
+                this.Username = ConvertedUsername;
+            else
+                throw new InvalidUsernameException();
 
-            this.Email = email; //TODO: Set settings
+            string[] SplittedEmail = email.Split('@'); // Split it to find local and domain
+            Match mLocal = EmailLocalValidator.Match(SplittedEmail[0]);
+            Match mDomain = EmailDomainValidator.Match(SplittedEmail[1]);
+            int DomainLength = SplittedEmail[1].Length - 1;
+            //If both the Regex validators is okay and the char check does not match we asign email
+            if (mLocal.Success && mDomain.Success && SplittedEmail[1][0] != Convert.ToChar(".") && SplittedEmail[1][0] != Convert.ToChar("-") && SplittedEmail[1][DomainLength] != Convert.ToChar(".") && SplittedEmail[1][DomainLength] != Convert.ToChar("-"))
+                this.Email = email;
+            else
+                throw new InvalidEmailException();
 
-            this.Balance = balance; //TODO: Set settigns
+            this.Balance = balance;
 
-            if (firstname == null || firstname == "") { throw new ArgumentNullException("This is not good"); }//TODO: Make real error! 
-            else { this.Firstname = firstname; }
-
-            if (lastname == null || lastname == "") { throw new ArgumentNullException("This is not good"); }//TODO: Make real error! 
-            else { this.Lastname = lastname; }
+            if (firstname == null || firstname == "" || lastname == null || lastname == "")
+                throw new ArgumentNullException();
+            else
+            {
+                this.Firstname = firstname;
+                this.Lastname = lastname;
+            }
 
         }
 
@@ -34,22 +46,23 @@ namespace Eksamensopgave2017
         public string Lastname;
         public string Username;
         public string Email;
-        public double Balance;
+        public decimal Balance;
 
         //https://msdn.microsoft.com/en-us/library/system.object.tostring(v=vs.110).aspx
         public override string ToString()
         {
-            return this.Firstname.ToString() + " " + this.Lastname.ToString();
+            return $"{this.Firstname.ToString()} {this.Lastname.ToString()}\n";
         }
-
+        
         public override bool Equals(object obj)
         {
             User other = obj as User;
-            if (other == null) return false;
+            if (other == null)
+                return false;
             return Id.Equals(other.Id);
         }
 
-        public override int GetHashCode() //TODO: Check up on GetHashCode
+        public override int GetHashCode()
         {
             return base.GetHashCode();
         }
@@ -58,7 +71,5 @@ namespace Eksamensopgave2017
         {
             return this.Id.CompareTo(other.Id);
         }
-
-
     }
 }

@@ -1,8 +1,6 @@
 ﻿//20143928_Jonas_Rechnitzer_Eriksen
 
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace Eksamensopgave2017
 {
@@ -10,10 +8,14 @@ namespace Eksamensopgave2017
     {
         static void Main(string[] args)
         {
-            IStregsystem stregsystem = new Stregsystem();
-            IStregsystemUI ui = new StregsystemCLI(stregsystem);
-            StregsystemController sc = new StregsystemController(ui, stregsystem);
-
+            // In the start all files will be loaded and "database" lists will be pupulated
+            File.WriteAllText(@"../../transactions.csv", string.Empty);
+            ReadFromCsv csvReader = new ReadFromCsv();
+            StregsystemCLI ui = new StregsystemCLI();
+            csvReader.CreateUserList("../../users.csv");
+            csvReader.CreateProductList("../../products.csv");
+            csvReader.CreateTransactionList();
+            //We will now start the interface
             ui.Start();
         }
     }
